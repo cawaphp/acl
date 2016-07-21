@@ -1,0 +1,29 @@
+{
+    "name": "cawaphp/acl",
+    "description": "Сáша Acl",
+    "keywords": [
+        "cawa",
+        "acl",
+        "permission",
+        "role"
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "tchiotludo"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Cawa\\Acl\\": "src"
+        }
+    },
+    "require": {
+        "php": "~7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.3"
+    }
+}
