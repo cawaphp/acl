@@ -21,6 +21,24 @@ class Permission extends AbstractPermission
     private $childs = [];
 
     /**
+     * @return array|AbstractPermission[]
+     */
+    public function getChilds()
+    {
+        return $this->childs;
+    }
+
+    /**
+     * @return $this
+     */
+    public function resetChilds() : self
+    {
+        $this->childs = [];
+
+        return $this;
+    }
+
+    /**
      * @return array|Permission[]
      */
     public function getPermissions()
@@ -52,6 +70,18 @@ class Permission extends AbstractPermission
     }
 
     /**
+     * @param AbstractPermission $child
+     *
+     * @return $this
+     */
+    public function addChild(AbstractPermission $child) : self
+    {
+        $this->childs[] = $child;
+
+        return $this;
+    }
+
+    /**
      * @param string $key
      * @param array $childs
      */
@@ -60,6 +90,64 @@ class Permission extends AbstractPermission
         parent::__construct($key);
 
         $this->childs = $childs;
+    }
+
+    /**
+     * @param array $rights
+     * @param array $flat
+     *
+     * @return array|Permission[]
+     */
+    public static function fromArray(array $rights, array $flat) : array
+    {
+        $return = [];
+
+        foreach ($flat as $current) {
+            $keys = explode('/', $current);
+            if ($permission = self::findRecursive($keys, $rights)) {
+                $return = self::listMerge($return, [$permission]);
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * @param array $keys
+     * @param array|AbstractPermission[] $permissions
+     *
+     * @return null|Permission
+     */
+    private static function findRecursive(array $keys, array $permissions)
+    {
+        $return = $current = null;
+        foreach ($keys as $key) {
+            foreach ($permissions as $permission) {
+                if ($permission->getKey() != $key) {
+                    continue;
+                }
+
+                if ($permission instanceof Permission) {
+                    if (!$return) {
+                        $return = clone $permission;
+                        $return->resetChilds();
+
+                        $current = $return;
+                        $permissions = $permission->getChilds();
+                    } else {
+                        $child = (clone $permission)->resetChilds();
+                        $current->addChild($child);
+
+                        $current = $child;
+                        $permissions = $permission->getChilds();
+                    }
+                } else {
+                    $current->addChild((clone $permission)->setFilters([end($keys)]));
+                }
+            }
+        }
+
+        return $return;
     }
 
     /**
