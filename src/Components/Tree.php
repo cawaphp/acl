@@ -15,9 +15,12 @@ namespace Cawa\Acl\Components;
 
 use Cawa\Acl\Permission;
 use Cawa\Bootstrap\Forms\ExtendedFields\TreeItem;
+use Cawa\Intl\TranslatorFactory;
 
 class Tree extends \Cawa\Bootstrap\Forms\ExtendedFields\Tree
 {
+    use TranslatorFactory;
+
     /**
      * @var Permission[]
      */
@@ -37,6 +40,19 @@ class Tree extends \Cawa\Bootstrap\Forms\ExtendedFields\Tree
     }
 
     /**
+     * @param $key
+     *
+     * @return string
+     */
+    private function translate($key) : string
+    {
+        $explode = explode('/', $key);
+        $trans = array_pop($explode);
+
+        return self::trans('rights.' . $trans);
+    }
+
+    /**
      * @param array|Permission[] $rights
      * @param array $rightKey
      *
@@ -46,17 +62,20 @@ class Tree extends \Cawa\Bootstrap\Forms\ExtendedFields\Tree
     {
         $return = [];
         foreach ($rights as $right) {
-            $item = (new TreeItem("_" . $right->getKey()));
+            $key = implode('/', array_merge($rightKey, [$right->getKey()]));
+            $item = (new TreeItem('_' . $key, $this->translate($key)));
 
             if ($right->getFilters()) {
                 foreach ($right->getFilters() as $filter) {
-                    $child = (new TreeItem("_" . $filter->getKey()));
+                    $key = implode('/', array_merge($rightKey, [$filter->getKey()]));
+                    $child = (new TreeItem('_' . $key, $this->translate($key)));
 
                     foreach ($filter->getFilters() as $value) {
-                        $child->addChildren(new TreeItem(implode('/', array_merge(
+                        $key = implode('/', array_merge(
                             $rightKey,
                             [$right->getKey(), $filter->getKey(), $value]
-                         ))));
+                        ));
+                        $child->addChildren(new TreeItem($key, $this->translate($key)));
                     }
 
                     $item->addChildren($child);
@@ -71,10 +90,9 @@ class Tree extends \Cawa\Bootstrap\Forms\ExtendedFields\Tree
 
                 $return[] = $item;
             } else {
-                $return[] = new TreeItem(implode('/', array_merge($rightKey, [$right->getKey()])));
+                $key = implode('/', array_merge($rightKey, [$right->getKey()]));
+                $return[] = new TreeItem($key, $this->translate($key));
             }
-
-
         }
 
         return $return;
