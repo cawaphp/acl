@@ -31,9 +31,9 @@ class Filter extends AbstractPermission
     /**
      * @param array|AbstractPermission[] $filters
      *
-     * @return Filter
+     * @return $this|self
      */
-    public function setFilters($filters)
+    public function setFilters($filters) : self
     {
         $this->filters = $filters;
 

@@ -31,7 +31,7 @@ abstract class AbstractPermission
     /**
      * @param string $key
      *
-     * @return $this
+     * @return $this|self
      */
     public function setKey(string $key) : self
     {

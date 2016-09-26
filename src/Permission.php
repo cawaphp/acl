@@ -29,7 +29,7 @@ class Permission extends AbstractPermission
     }
 
     /**
-     * @return $this
+     * @return $this|self
      */
     public function resetChilds() : self
     {
@@ -72,7 +72,7 @@ class Permission extends AbstractPermission
     /**
      * @param AbstractPermission $child
      *
-     * @return $this
+     * @return $this|self
      */
     public function addChild(AbstractPermission $child) : self
     {
@@ -116,7 +116,7 @@ class Permission extends AbstractPermission
      * @param array $keys
      * @param array|AbstractPermission[] $permissions
      *
-     * @return null|Permission
+     * @return $this|self|null
      */
     private static function findRecursive(array $keys, array $permissions)
     {
@@ -153,7 +153,7 @@ class Permission extends AbstractPermission
     /**
      * @param Permission $permission
      *
-     * @return $this|Permission
+     * @return $this|self
      */
     public function merge(Permission $permission) : self
     {
@@ -183,8 +183,8 @@ class Permission extends AbstractPermission
     }
 
     /**
-     * @param array|Permission[] $sources
-     * @param array|Permission[] $merge
+     * @param array|$this[] $sources
+     * @param array|$this[] $merge
      *
      * @return array
      */

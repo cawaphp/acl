@@ -31,7 +31,7 @@ trait PermissionTrait
     /**
      * @param array|Permission[] $permissions
      *
-     * @return $this
+     * @return $this|self
      */
     protected function setPermissions($permissions) : self
     {
@@ -43,7 +43,7 @@ trait PermissionTrait
     /**
      * @param array|Permission[] $permissions
      *
-     * @return $this
+     * @return $this|self
      */
     protected function addPermissions($permissions) : self
     {
