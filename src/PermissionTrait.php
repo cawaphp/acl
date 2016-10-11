@@ -65,7 +65,7 @@ trait PermissionTrait
         $findFilters = [];
         $permissions = $this->permissions;
         foreach ($keys as $key) {
-            if ($key == "*") {
+            if ($key == '*') {
                 break;
             }
 
@@ -94,4 +94,3 @@ trait PermissionTrait
         return true;
     }
 }
-

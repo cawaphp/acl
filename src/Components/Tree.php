@@ -98,4 +98,3 @@ class Tree extends \Cawa\Bootstrap\Forms\ExtendedFields\Tree
         return $return;
     }
 }
-

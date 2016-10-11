@@ -51,4 +51,3 @@ class Filter extends AbstractPermission
         $this->filters = $filters;
     }
 }
-

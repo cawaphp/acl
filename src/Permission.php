@@ -51,7 +51,6 @@ class Permission extends AbstractPermission
         }
 
         return $return;
-
     }
 
     /**
@@ -158,7 +157,7 @@ class Permission extends AbstractPermission
     public function merge(Permission $permission) : self
     {
         // merge filters
-        foreach($permission->getFilters() as $filter) {
+        foreach ($permission->getFilters() as $filter) {
             $found = false;
             foreach ($this->getFilters() as $current) {
                 if ($current->getKey() == $filter->getKey()) {
@@ -174,7 +173,6 @@ class Permission extends AbstractPermission
             if (!$found) {
                 $this->childs[] = $filter;
             }
-
         }
 
         $this->childs = Permission::listMerge($this->childs, $permission->getPermissions());
@@ -223,4 +221,3 @@ class Permission extends AbstractPermission
         return null;
     }
 }
-
