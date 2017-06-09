@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Acl;
 
@@ -45,7 +45,7 @@ class Permission extends AbstractPermission
     {
         $return = [];
         foreach ($this->childs as $child) {
-            if ($child instanceof Permission) {
+            if ($child instanceof self) {
                 $return[] = $child;
             }
         }
@@ -126,7 +126,7 @@ class Permission extends AbstractPermission
                     continue;
                 }
 
-                if ($permission instanceof Permission) {
+                if ($permission instanceof self) {
                     if (!$return) {
                         $return = clone $permission;
                         $return->resetChilds();
@@ -175,7 +175,7 @@ class Permission extends AbstractPermission
             }
         }
 
-        $this->childs = Permission::listMerge($this->childs, $permission->getPermissions());
+        $this->childs = self::listMerge($this->childs, $permission->getPermissions());
 
         return $this;
     }
@@ -190,7 +190,7 @@ class Permission extends AbstractPermission
     {
         foreach ($merge as $permission) {
             /** @var Permission $find */
-            $find = Permission::find($permission->getKey(), Permission::class, $sources);
+            $find = self::find($permission->getKey(), self::class, $sources);
 
             if (!$find) {
                 $sources[] = $permission;
