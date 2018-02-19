@@ -67,7 +67,7 @@ class Tree extends \Cawa\Bootstrap\Forms\ExtendedFields\Tree
 
             if ($right->getFilters()) {
                 foreach ($right->getFilters() as $filter) {
-                    $key = implode('/', array_merge($rightKey, [$filter->getKey()]));
+                    $key = implode('/', array_merge($rightKey, [$right->getKey(), $filter->getKey()]));
                     $child = (new TreeItem('_' . $key, $this->translate($key)));
 
                     foreach ($filter->getFilters() as $value) {

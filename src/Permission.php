@@ -23,7 +23,7 @@ class Permission extends AbstractPermission
     /**
      * @return array|AbstractPermission[]
      */
-    public function getChilds()
+    public function getChilds() : array
     {
         return $this->childs;
     }
@@ -41,7 +41,7 @@ class Permission extends AbstractPermission
     /**
      * @return array|Permission[]
      */
-    public function getPermissions()
+    public function getPermissions() : array
     {
         $return = [];
         foreach ($this->childs as $child) {
@@ -117,7 +117,7 @@ class Permission extends AbstractPermission
      *
      * @return $this|self|null
      */
-    private static function findRecursive(array $keys, array $permissions)
+    private static function findRecursive(array $keys, array $permissions) : ?self
     {
         $return = $current = null;
         foreach ($keys as $key) {
@@ -181,8 +181,8 @@ class Permission extends AbstractPermission
     }
 
     /**
-     * @param array|$this[] $sources
-     * @param array|$this[] $merge
+     * @param array|self[] $sources
+     * @param array|self[] $merge
      *
      * @return array
      */
@@ -209,7 +209,7 @@ class Permission extends AbstractPermission
      *
      * @return null|AbstractPermission
      */
-    public static function find(string $key, string $class, array $permissions)
+    public static function find(string $key, string $class, array $permissions) : ?AbstractPermission
     {
         /** @var AbstractPermission $permission */
         foreach ($permissions as $permission) {

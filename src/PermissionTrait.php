@@ -23,7 +23,7 @@ trait PermissionTrait
     /**
      * @return array|Permission[]
      */
-    protected function getPermissions()
+    protected function getPermissions() : array
     {
         return $this->permissions;
     }
